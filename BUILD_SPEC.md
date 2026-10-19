@@ -669,3 +669,11 @@ Every issue must state: the problem, affected file paths, expected behavior, acc
 Label taxonomy: `good-first-issue`, `help-wanted`, `module/core`, `module/money`, `module/events`, `module/auth`, `module/ttl`, `module/cli`, `docs`, `size/s`, `size/m`, `size/l`.
 
 **Difficulty guidance:** Modules 3, 4, 5, and the `audit` rules are good first issues. Module 7 is not — do not label TTL work as beginner-friendly.
+
+## Coverage tool support
+
+The `coverage` command delegates collection to `cargo-llvm-cov`, which is the supported coverage tool for the Soroban WASM target. Keep the tool installed from its current stable release and verify compatibility with the repository's pinned Rust toolchain before running coverage locally or in CI.
+
+Use the same tool and format flags in local and CI workflows so text, LCOV, HTML, and JSON reports describe the same instrumented target. If `cargo-llvm-cov` is unavailable, the command should report that prerequisite clearly and include the installation or version-check guidance instead of failing with an opaque shell error.
+
+Coverage collection is separate from the normal test runner: run the workspace tests first, then invoke the coverage command for the report format required by the workflow. This keeps tool availability, target setup, and report generation failures distinguishable.
